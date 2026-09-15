@@ -15,7 +15,7 @@
         <p:panel header="Student Registration">
             <p:outputLabel for="fullName" value="Full Name" />
             <p:inputText id="fullName"
-                         value="#{studentFormBean.fullName}"
+                         value="#{studentFormBean.studentInfo.fullName}"
                          required="true"
                          requiredMessage="Full name is required" />
 
@@ -24,7 +24,7 @@
 
             <p:outputLabel for="program" value="Program" />
             <p:selectOneMenu id="program"
-                             value="#{studentFormBean.program}"
+                             value="#{studentFormBean.studentInfo.program}"
                              required="true"
                              requiredMessage="Program is required">
                 <f:selectItem itemLabel="Select Program"
@@ -40,7 +40,7 @@
             <br/>
 
             <p:selectBooleanCheckbox id="fullTime"
-                                     value="#{studentFormBean.fullTime}" />
+                                     value="#{studentFormBean.studentInfo.fullTime}" />
             <p:outputLabel for="fullTime"
                            value="Full Time Student" />
 
@@ -55,6 +55,31 @@
             <h:outputText
                 value="Succesful submission: #{studentFormBean.submissionCount}" />
         </p:panel>
+
+        <p:dataTable id="dataTable"
+                     value="#{studentInfoSession.students}"
+                     var="currentStudent" >
+            <p:column headerText="Full Name" >
+                <h:outputText value="#{currentStudent.fullName}" />
+            </p:column>
+
+            <p:column headerText="Program" >
+                <h:outputText value="#{currentStudent.program}" />
+            </p:column>
+
+            <p:column headerText="Full Time" >
+                <p:selectBooleanCheckbox value="#{currentStudent.fullTime}"
+                              disabled="disabled" />
+
+            </p:column>
+
+            <p:column headerText="Action" >
+                <p:commandButton value="Remove"
+                                 action="#{studentFormBean.removeStudent(currentStudent)}"
+                                 process="@this"
+                                 update="dataTable" />
+            </p:column>
+        </p:dataTable>
     </h:form>
 </body>
 </html>
